@@ -1,4 +1,4 @@
-#🪄 bookstore_project 🪄
+# 🪄 bookstore_project 🪄
 This is a python based project involving a system of classes that store and organize books and users. It uses a SQLite database for managing data. 
 This is a part of our class project for CSE2213 Methods and Tools of software development.
 ## 💻 Overview
