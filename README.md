@@ -6,6 +6,6 @@ The end functionality will be for user authentification and shopping. The user w
 with each new book being added to their cart. Additionally, admin users will be able to change the books in stock and add new books to the
 inventory.
 
-to install run the following:
+To install run the following:
 > git init
 > git clone https://github.com/cueltschey/bookstore_project/
