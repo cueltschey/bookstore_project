@@ -9,19 +9,49 @@ class User:
         self.userID = ""
         self.loggedIn = False
         try:
-            self.cnn = sqlite3.connect("./" + self.databaseName)
+            self.cnn = sqlite3.connect("./Bookstore/" + self.databaseName)
         except Exception as e:
             raise e 
 
     def login(self):
         email = input("email: ")
         password = input("password: ")
-        userID = self.cnn.execute("SELECT userID FROM User WHERE Email='?' AND Password='?'", (email, password))[0]
-        if len(userID) > 0:
+        userIDs = self.cnn.execute(f"SELECT userID FROM User WHERE Email='{email}' AND Password='{password}'")
+        for u in userIDs:
+            self.userID = u[0]
             print("logged in...")
-            return true
+            print(self.userID)
+            self.loggedIn = True
+            return True
         print("failed")
-        return false
+        return False
+
+    def logout(self):
+        self.loggedIn = False
+        print("logged out...")
+        return False
+
+    def viewAccountInformation(self):
+        details = self.cnn.execute(f"SELECT * FROM User WHERE UserID='{self.userID}'")
+        for d in details:
+            print(f"First Name: {d[3]}")
+            print(f"Last Name: {d[4]}")
+            return True
+        print("not logged in...")
+        return False
+
+    def createAccount(self):
+        email = input("Email: ")
+        password = input("Password: ")
+        first = input("First Name: ")
+        last = input("Last Name: ")
+        add = input("Address: ")
+        city = input("City: ")
+        state = input("State: ")
+        zip_user = input("Zip: ")
+        payment = input("Payment: ")
+        res = self.cnn.execute("INSERT INTO User VALUES (NULL,?,?,?,?,?,?,?,?,?)", (email,password,first,last,add,city,state,zip_user,payment))
+        print("creating account...")
 
     def viewCart(self, userID, inventoryDatabase):
         # get and display books in the users cart
