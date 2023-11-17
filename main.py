@@ -4,9 +4,5 @@ from Bookstore.User import User
 
 u = User()
 
-#u.login()
-
-#u.viewAccountInformation()
-
-u.createAccount()
+u.login()
 # end testing for User
