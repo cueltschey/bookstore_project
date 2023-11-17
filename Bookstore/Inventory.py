@@ -41,6 +41,9 @@ def searchInventory(self):
     print(table)
   else:
     print(f"No book with ISBN {data} found in our inventory.")
-
+    
   cursor.close()
   connection.close()
+
+
+
