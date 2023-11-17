@@ -6,7 +6,22 @@ class User:
     def __init__(self, database="Bookstore.db", table=""):
         self.databaseName = database
         self.tableName = table
-        self.cnn = sqlite3.connect("./" + self.databaseName)
+        self.userID = ""
+        self.loggedIn = False
+        try:
+            self.cnn = sqlite3.connect("./" + self.databaseName)
+        except Exception as e:
+            raise e 
+
+    def login(self):
+        email = input("email: ")
+        password = input("password: ")
+        userID = self.cnn.execute("SELECT userID FROM User WHERE Email='?' AND Password='?'", (email, password))[0]
+        if len(userID) > 0:
+            print("logged in...")
+            return true
+        print("failed")
+        return false
 
     def viewCart(self, userID, inventoryDatabase):
         # get and display books in the users cart

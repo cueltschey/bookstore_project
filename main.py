@@ -4,6 +4,5 @@ from Bookstore.User import User
 
 u = User()
 
-u.viewCart("12345", "none")
-
+u.login()
 # end testing for User
