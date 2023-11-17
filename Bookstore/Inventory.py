@@ -46,36 +46,29 @@ def searchInventory(self):
   connection.close()
 
 def decrease_stock(self):
-        connection = sqlite3.connect("MainDatabase.db")
-        cursor = connection.cursor()
-
-        ISBN = input("Enter the unique ISBN of the book: ")
-
-        query = "SELECT ISBN, Quantity FROM Inventory WHERE ISBN = ?"
-        cursor.execute(query, (ISBN,))
-
-        search_book = cursor.fetchone()
-
-        if not search_book:
-            print("Invalid ISBN.")
-        else:
-            current_quantity = int(search_book[1])
-            print("Current book quantity:", current_quantity)
-
-            quantity_to_decrease = int(input("Enter the quantity to decrease: "))
-
-            if current_quantity >= quantity_to_decrease:
-                new_quantity = current_quantity - quantity_to_decrease
-
-                cursor.execute("UPDATE Inventory SET Quantity = ? WHERE ISBN = ?", (new_quantity, ISBN))
-
-                print("Stock quantity decreased successfully. The new stock is", new_quantity)
-                connection.commit()
-            else:
-                print("Insufficient stock.")
-
-        cursor.close()
-        connection.close()
+  from tabulate import tabulate
+  connection = sqlite3.connect("MainDatabase.db")
+  cursor = connection.cursor()
+  ISBN = input("Enter the unique ISBN of the book: ")
+  query = "SELECT ISBN, Quantity FROM Inventory WHERE ISBN = ?"
+  cursor.execute(query, (ISBN,))
+  search_book = cursor.fetchone()
+  if not search_book:
+    print("Invalid ISBN.")
+  else:
+    current_quantity = int(search_book[1])
+    print("Current book quantity:", current_quantity)
+    quantity_to_decrease = int(input("Enter the quantity to decrease: "))
+    if current_quantity >= quantity_to_decrease:
+      new_quantity = current_quantity - quantity_to_decrease
+      cursor.execute("UPDATE Inventory SET Quantity = ? WHERE ISBN = ?", (new_quantity, ISBN))
+      print("Stock quantity decreased successfully. The new stock is", new_quantity)
+      connection.commit()
+    else:
+      print("Insufficient stock.")
+      
+    cursor.close()
+    connection.close()
 
 
 
