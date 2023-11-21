@@ -1,6 +1,5 @@
 import sqlite3
 import os
-os.system("python3 Bookstore/Inventory.py")
 
 class User:
     def __init__(self, database="Bookstore.db", table=""):
@@ -9,7 +8,7 @@ class User:
         self.userID = ""
         self.loggedIn = False
         try:
-            self.cnn = sqlite3.connect("./" + self.databaseName)
+            self.cnn = sqlite3.connect("./Bookstore/" + self.databaseName)
         except Exception as e:
             raise e 
 
@@ -19,45 +18,46 @@ class User:
         userIDs = self.cnn.execute(f"SELECT userID FROM User WHERE Email='{email}' AND Password='{password}'")
         for u in userIDs:
             self.userID = u[0]
+            self.loggedIn = True
             return True
         print("login failed...")
         return False
+    
+    def logout(self):
+        self.userID = ""
+        self.loggedIn = False
+        return False
 
-    def viewAccountInformation():
-        if(!userID):
+    def viewAccountInformation(self):
+        if(self.userID == ""):
             print("please log in...")
             return False
-        info = self.cnn.execute(f"SELECT * FROM User WHERE UserID='{userID}'")
+        info = self.cnn.execute(f"SELECT * FROM User WHERE UserID='{self.userID}'")
         for i in info:
             for x in i:
-                print(i)
+                print(x)
             return True
-        
 
-    def viewCart(self, userID, inventoryDatabase):
-        # get and display books in the users cart
-        items = self.cnn.execute("SELECT * FROM Cart")
-        for item in items:
-            print(item)
-        
+    def createAccount(self):
+        email = input("Email: ")
+        password = input("Password: ")
+        first = input("First Name: ")
+        last = input("Last Name: ")
+        add = input("Address: ")
+        city = input("City: ")
+        state = input("State: ")
+        z = input("Zip: ")
+        pay = input("Payment: ")
+        stmt = "INSERT INTO User VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        try:
+            self.cnn.execute(stmt, (email,password,first,last,add,city,state,z,pay))
+            self.cnn.commit()
+        except Exception as e:
+            print(e)
+     
+    def getLoggedIn(self):
+        return self.loggedIn
 
-    def addToCart(userID, ISBN):
-        # add a new book or increment existing book
-        quantity = self.cnn.execute(f"SELECT Quantity FROM Cart WHERE ISBN='{ISBN}' AND UserID='{userID}'")
-        self.cnn.execute(f"REMOVE FROM Cart WHERE ISBN='{ISBN}' AND UserID='{userID}'")
-        if(quantity):
-            quantity = int(quantity)
-            self.cnn.execute("INSERT INTO Cart VALUES (?, ?, ?)", (userID, ISBN, quantity + 1))
-        else:
-            self.cnn.execute("INSERT INTO Cart VALUES (?, ?, ?)", (userID, ISBN, 1))
-
-    def removeFromCart(userID, ISBN):
-        # remove all books of matching ISBN
-        self.cnn.execute(f"REMOVE FROM Cart WHERE UserID='{userID}' AND ISBN='{ISBN}'")
-
-    def checkOut(userID):
-        # clear cart and call inventory checkout
-        items = cnn.execute(f"SELECT * FROM Cart WHERE userID='{userID}'")
-        self.cnn.execute(f"REMOVE FROM Cart WHERE userID='{userID}'")
-
+    def getUserID(self):
+        return self.userID
 

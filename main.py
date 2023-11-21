@@ -4,5 +4,14 @@ from Bookstore.User import User
 
 u = User()
 
+u.createAccount()
+
 u.login()
+
+u.viewAccountInformation()
+
+
+
+
+
 # end testing for User
