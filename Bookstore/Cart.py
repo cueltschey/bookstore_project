@@ -7,11 +7,11 @@ class Cart:
         self.userID = userID
         self.database = database
 
-    def addBook(self, ISBN, quantity):
+    def addBook(self, ISBN, Quantity):
         if ISBN in self.cartItems:
-            self.cartItems[ISBN] += quantity
+            self.cartItems[ISBN] += Quantity
         else:
-            self.cartItems[ISBN] = quantity
+            self.cartItems[ISBN] = Quantity
 
     def removeBook(self, ISBN):
         if ISBN in self.cartItems:
@@ -21,8 +21,11 @@ class Cart:
                 del self.cartItems[ISBN]
 
     def checkOut(self):
+        
+        # Need to figure out the checkout section
+        
         pass
-
+        
     def viewCart(self):
         connection = sqlite3.connect(self.database)
         cursor = connection.cursor()
