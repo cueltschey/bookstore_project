@@ -9,3 +9,4 @@ inventory.
 ## 🧑‍🤝‍🧑 Team members
 - ii-Raghav (Raghav Doshi)
 - cueltschey (Charles Ueltschey)
+- Amit0200 (Amit Gupta)
