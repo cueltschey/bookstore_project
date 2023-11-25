@@ -26,8 +26,7 @@ def searchInventory(self):
   
   data = input("Enter the book's ISBN: ")
 
-  query = "SELECT * FROM Inventory WHERE ISBN = ?"
-  cursor.execute(query, (data,))
+  cursor.execute(f"SELECT * FROM Inventory WHERE ISBN='{data}'")
   search_result = cursor.fetchall()
   
   if search_result:
@@ -38,17 +37,13 @@ def searchInventory(self):
     print(table)
   else:
     print(f"No book with ISBN {data} found in our inventory.")
-    
-  cursor.close()
-  connection.close()
+
 
 def decrease_stock(self):
-  from tabulate import tabulate
-  connection = sqlite3.connect("MainDatabase.db")
-  cursor = connection.cursor()
+
   ISBN = input("Enter the unique ISBN of the book: ")
-  query = "SELECT ISBN, Quantity FROM Inventory WHERE ISBN = ?"
-  cursor.execute(query, (ISBN,))
+  query = 
+  cursor.execute(f"SELECT ISBN, Quantity FROM Inventory WHERE ISBN = {ISBN}")
   search_book = cursor.fetchone()
   if not search_book:
     print("Invalid ISBN.")
@@ -58,14 +53,12 @@ def decrease_stock(self):
     quantity_to_decrease = int(input("Enter the quantity to decrease: "))
     if current_quantity >= quantity_to_decrease:
       new_quantity = current_quantity - quantity_to_decrease
-      cursor.execute("UPDATE Inventory SET Quantity = ? WHERE ISBN = ?", (new_quantity, ISBN))
-      print("Stock quantity decreased successfully. The new stock is", new_quantity)
+      cursor.execute(f"UPDATE Inventory SET Quantity ='{new_quantity}' WHERE ISBN ='{ISBN}'")
+      print("Stock quantity decreased successfully. The new stock is: ", new_quantity)
       connection.commit()
     else:
       print("Insufficient stock.")
-      
-    cursor.close()
-    connection.close()
+
 
 
 
