@@ -4,7 +4,7 @@ class Cart:
     def __init__(self, table='Cart', database="Bookstore/Bookstore.db"):
         self.databaseName = database
         self.tableName = table
-        self.cnn = sqlite3.connect('./' + databaseName)
+        self.cnn = sqlite3.connect('./' + self.databaseName)
 
     def addToCart(self, userID, ISBN):
         books = self.cnn.execute(f"SELECT Quantity FROM Inventory WHERE ISBN='{ISBN}' AND UserID='{userID}'")
