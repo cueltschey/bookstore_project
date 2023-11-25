@@ -25,8 +25,6 @@ class Cart:
         for book in books:
             self.cnn.execute(f"")
         
-        # Need to figure out the checkout section
-        
         pass
         
     def viewCart(self):
