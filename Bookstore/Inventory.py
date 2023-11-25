@@ -59,6 +59,10 @@ def decrease_stock(self):
     else:
       print("Insufficient stock.")
 
+def checkOut(self):
+
+  # figure out the checkOut function
+
 
 
 
