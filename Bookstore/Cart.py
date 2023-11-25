@@ -1,26 +1,29 @@
 import sqlite3
-import os
 
 class Cart:
-    def __init__(self, userID, database="Bookstore.db"):
-        self.cartItems = {}
-        self.userID = userID
-        self.database = database
+    def __init__(self, table='Cart', database="Bookstore/Bookstore.db"):
+        self.databaseName = database
+        self.tableName = table
+        self.cnn = sqlite3.connect('./' + databaseName)
 
-    def addBook(self, ISBN, Quantity):
-        if ISBN in self.cartItems:
-            self.cartItems[ISBN] += Quantity
-        else:
-            self.cartItems[ISBN] = Quantity
+    def addToCart(self, userID, ISBN):
+        books = self.cnn.execute(f"SELECT Quantity FROM Inventory WHERE ISBN='{ISBN}' AND UserID='{userID}'")
+        for book in books:
+            q = int(book) + 1
+            self.cnn.execute(f"UPDATE Inventory SET Quantity='{q}' WHERE ISBN='{ISBN} AND UserID={userID}'")
+            return True
+        
+        self.cnn.execute(f"INSERT INTO {self.tableName} VALUES (?,?,?)",(userID, ISBN, 1))
+        return False
 
-    def removeBook(self, ISBN):
-        if ISBN in self.cartItems:
-            if self.cartItems[ISBN] > 1:
-                self.cartItems[ISBN] -= 1
-            else:
-                del self.cartItems[ISBN]
+    def removeFromCart(self, ISBN):
+        q = self.cnn.execute("SELECT Quantity FROM Inventory WHERE ISBN={ISBN} AND UserID={userID}")
 
-    def checkOut(self):
+    def checkOut(self, userID):
+        books = self.cnn.execute(f"SELECT ISBN FROM {self.tableName} WHERE UserUD={userID}")
+
+        for book in books:
+            self.cnn.execute(f"")
         
         # Need to figure out the checkout section
         
