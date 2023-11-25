@@ -2,14 +2,16 @@ import sqlite3
 import os
 import sys
 os.system("python3 Bookstore/Inventory.py")
+from tabulate import tabulate
 
 class Inventory:
-  def __init__(self, databaseName = '', tableName = ''):
+  def __init__(self, databaseName = 'Bookstore/Bookstore.db', tableName = ''):
     self.databaseName = databaseName
     self.tableName = tableName
+    self.cursor = sqlite3.connect("./" + databaseName)
 
   def viewInventory(self):
-    cursor.execute("SELECT * FROM Inventory")
+    self.cursor.execute("SELECT * FROM Inventory")
     book_inventory = cursor.fetchall()
 
     print("Book Inventory:")
@@ -20,12 +22,7 @@ class Inventory:
     table = tabulate(table_data, headers=headers, tablefmt="grid", showindex="always")
     print(table)
 
-    cursor.close()
-    connection.close()
-
 def searchInventory(self):
-  from tabulate import tabulate
-  cursor = connection.cursor()
   
   data = input("Enter the book's ISBN: ")
 
