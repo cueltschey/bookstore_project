@@ -37,6 +37,7 @@ class User:
             return True
 
     def createAccount(self):
+        cnn = sqlite3.connect('./' + self.databaseName)
         email = input("Email: ")
         password = input("Password: ")
         first = input("First Name: ")

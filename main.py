@@ -1,16 +1,18 @@
 from Bookstore.User import User 
+from Bookstore.Inventory import Inventory
 
 # testing for User
 
-u = User()
+i = Inventory()
 
-u.createAccount()
+i.viewInventory()
+print("pass")
+i.searchInventory()
+print("pass")
+i.decreaseStock("1")
 
-u.login()
 
-u.viewAccountInformation()
-
-
+print("final pass")
 
 
 
