@@ -1,19 +1,11 @@
 from Bookstore.User import User 
 from Bookstore.Inventory import Inventory
+from Bookstore.Cart import Cart
 
 # testing for User
 
-i = Inventory()
+c = Cart()
 
-i.viewInventory()
-print("pass")
-i.searchInventory()
-print("pass")
-i.decreaseStock("1")
-
-
-print("final pass")
-
-
+c.viewCart(1)
 
 # end testing for User

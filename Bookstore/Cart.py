@@ -1,7 +1,7 @@
 import sqlite3
 
 class Cart:
-    def __init__(self, table='Cart', database="Bookstore/Bookstore.db"):
+    def __init__(self, database="Bookstore/Cart.db", table='Cart'):
         self.databaseName = database
         self.tableName = table
         self.cnn = sqlite3.connect('./' + self.databaseName)
@@ -27,14 +27,21 @@ class Cart:
         
         pass
         
-    def viewCart(self):
-        connection = sqlite3.connect(self.database)
-        cursor = connection.cursor()
+    def viewCart(self, userID, inventoryDatabase="Bookstore/Inventory.db"):
+        cursor = sqlite3.connect("./" + self.databaseName)
+        inv = sqlite3.connect("./" + inventoryDatabase)
 
-        print("Shopping Cart:")
-        print("ISBN\tQuantity")
+        res = cursor.execute(f"SELECT ISBN, Quantity FROM {self.tableName} WHERE UserID='{userID}'")
+        columns = ["ISBN", "Title","Author","Genre","Pages","Date", "Quantity"]
+        print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(columns[0],columns[1],columns[2],columns[3],columns[4],columns[5],columns[6]))
+        print()
 
-        for isbn, qty in self.cartItems.items():
-            print(f"{isbn}\t{qty}")
+        for info in res:
+            i = [item for item in inv.execute(f"SELECT * FROM Inventory WHERE ISBN='{info[0]}'")]
+            i = i[0]
+            print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(info[0],i[1],i[2],i[3],i[4],i[5],info[1]))
 
-        connection.close()
+
+        cursor.close()
+        inv.close()
+        print()
