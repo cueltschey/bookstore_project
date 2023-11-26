@@ -2,20 +2,17 @@ import sqlite3
 import os
 
 class User:
-    def __init__(self, database="Bookstore.db", table=""):
+    def __init__(self, database="Bookstore/User.db", table="User"):
         self.databaseName = database
         self.tableName = table
         self.userID = ""
         self.loggedIn = False
-        try:
-            self.cnn = sqlite3.connect("./Bookstore/" + self.databaseName)
-        except Exception as e:
-            raise e 
 
     def login(self):
+        cnn = sqlite3.connect('./' + self.databaseName)
         email = input("email: ")
         password = input("password: ")
-        userIDs = self.cnn.execute(f"SELECT userID FROM User WHERE Email='{email}' AND Password='{password}'")
+        userIDs = cnn.execute(f"SELECT userID FROM {self.tableName} WHERE Email='{email}' AND Password='{password}'")
         for u in userIDs:
             self.userID = u[0]
             self.loggedIn = True
@@ -29,10 +26,11 @@ class User:
         return False
 
     def viewAccountInformation(self):
+        cnn = sqlite3.connect('./' + self.databaseName)
         if(self.userID == ""):
             print("please log in...")
             return False
-        info = self.cnn.execute(f"SELECT * FROM User WHERE UserID='{self.userID}'")
+        info = cnn.execute(f"SELECT * FROM {self.tableName} WHERE UserID='{self.userID}'")
         for i in info:
             for x in i:
                 print(x)
@@ -48,10 +46,10 @@ class User:
         state = input("State: ")
         z = input("Zip: ")
         pay = input("Payment: ")
-        stmt = "INSERT INTO User VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        stmt = f"INSERT INTO {self.tableName} VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         try:
-            self.cnn.execute(stmt, (email,password,first,last,add,city,state,z,pay))
-            self.cnn.commit()
+            cnn.execute(stmt, (email,password,first,last,add,city,state,z,pay))
+            cnn.commit()
         except Exception as e:
             print(e)
      
