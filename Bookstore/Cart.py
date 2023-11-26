@@ -9,7 +9,7 @@ class Cart:
     def addToCart(self, userID, ISBN):
         books = self.cnn.execute(f"SELECT Quantity FROM Inventory WHERE ISBN='{ISBN}' AND UserID='{userID}'")
         for book in books:
-            q = int(book) + 1
+            q = int(book[0]) + 1
             self.cnn.execute(f"UPDATE Inventory SET Quantity='{q}' WHERE ISBN='{ISBN} AND UserID={userID}'")
             return True
         
@@ -17,7 +17,7 @@ class Cart:
         return False
 
     def removeFromCart(self, ISBN):
-        q = self.cnn.execute("SELECT Quantity FROM Inventory WHERE ISBN={ISBN} AND UserID={userID}")
+        self.cnn.execute("SELECT Quantity FROM Inventory WHERE ISBN={ISBN} AND UserID={userID}")
 
     def checkOut(self, userID):
         books = self.cnn.execute(f"SELECT ISBN FROM {self.tableName} WHERE UserUD={userID}")
