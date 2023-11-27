@@ -39,7 +39,7 @@ class Inventory:
         print(f"No book with ISBN {ISBN} found in our inventory.")
 
 
-  def decreaseStock(self, ISBN):
+  def decreaseStock(self, ISBN, quantity_to_decrease):
     cursor = sqlite3.connect("./" + self.databaseName)
     res = cursor.execute(f"SELECT Stock FROM {self.tableName} WHERE ISBN='{ISBN}'")
     search_book = [r for r in res]
@@ -47,8 +47,6 @@ class Inventory:
         print("Invalid ISBN.")
     else:
         current_quantity = int(search_book[0][0])
-        print("Current book quantity:", current_quantity)
-        quantity_to_decrease = int(input("Enter the quantity to decrease: "))
         if(current_quantity - quantity_to_decrease > 0):
             cursor.execute(f"UPDATE {self.tableName} SET Stock='{current_quantity - quantity_to_decrease}' WHERE ISBN ='{ISBN}'")
             print("Stock quantity decreased successfully. The new stock is: ", current_quantity - quantity_to_decrease)
