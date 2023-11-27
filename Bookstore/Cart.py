@@ -16,18 +16,18 @@ class Cart:
         cnn.execute(f"INSERT INTO {self.tableName} VALUES (?,?,?)",(userID, ISBN, 1))
         return False
 
-    def removeFromCart(self, ISBN):
+    def removeFromCart(self, userID, ISBN):
         cnn = sqlite3.connect('./' + self.databaseName)
-        cnn.execute("SELECT Quantity FROM Inventory WHERE ISBN={ISBN} AND UserID={userID}")
+        cnn.execute("DELETE FROM {self.tableName} WHERE UserID='{userID}' AND ISBN='{ISBN}'")
 
     def checkOut(self, userID):
         cnn = sqlite3.connect('./' + self.databaseName)
-        books = cnn.execute(f"SELECT ISBN FROM {self.tableName} WHERE UserUD={userID}")
+        books = cnn.execute(f"SELECT ISBN, Quantity FROM {self.tableName} WHERE UserID='{userID}'")
 
         for book in books:
             inventory.decreaseStock(book[0], book[1])
     
-        cnn.execute(f"DELETE FROM {Self.tableName} WHERE UserID={userID}")
+        cnn.execute(f"DELETE FROM {self.tableName} WHERE UserID='{userID}'")
         cnn.commit()
         
         
