@@ -23,9 +23,11 @@ class Cart:
         books = self.cnn.execute(f"SELECT ISBN FROM {self.tableName} WHERE UserUD={userID}")
 
         for book in books:
-            self.cnn.execute(f"")
+            inventory.decreaseStock(book[0], book[1])
+    
+        self.cnn.execute(f"DELETE FROM {Self.tableName} WHERE UserID={userID}")
+        self.cnn.commit()
         
-        pass
         
     def viewCart(self, userID, inventoryDatabase="Bookstore/Inventory.db"):
         cursor = sqlite3.connect("./" + self.databaseName)
