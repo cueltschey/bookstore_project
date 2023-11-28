@@ -11,7 +11,8 @@ class Cart:
         
         for book in books:
             q = int(book[0]) + 1
-            cnn.execute(f"UPDATE {self.tableName} SET Quantity='{q}' WHERE ISBN='{ISBN} AND UserID={userID}'")
+            print(f"Quantity, of book {book[0]} is now {q}")
+            cnn.execute(f"UPDATE {self.tableName} SET Quantity='{q}' WHERE ISBN='{ISBN}' AND UserID='{userID}'")
             cnn.commit()
             cnn.close()
             return True
@@ -23,9 +24,18 @@ class Cart:
 
     def removeFromCart(self, userID, ISBN):
         cnn = sqlite3.connect('./' + self.databaseName)
-        cnn.execute(f"DELETE FROM {self.tableName} WHERE UserID='{userID}' AND ISBN='{ISBN}'")
-        cnn.commit()
-        cnn.close()
+        books = cnn.execute(f"SELECT Quantity FROM {self.tableName} WHERE UserID='{userID}' AND ISBN='{ISBN}'")
+        for book in books:
+            q = int(book[0]) - 1
+            if(q > 0):
+                cnn.execute(f"UPDATE {self.tableName} SET Quantity='{q}' WHERE ISBN='{ISBN}' AND UserID='{userID}'")
+                cnn.commit()
+                cnn.close()
+                return True
+            cnn.execute("DELETE FROM {self.tableName} WHERE ISBN='{ISBN}' AND UserID='{userID}'")
+            cnn.commit()
+            cnn.close()
+            return False
 
     def checkOut(self, userID):
         cnn = sqlite3.connect('./' + self.databaseName)
