@@ -7,18 +7,25 @@ class Cart:
 
     def addToCart(self, userID, ISBN):
         cnn = sqlite3.connect('./' + self.databaseName)
-        books = cnn.execute(f"SELECT Quantity FROM Inventory WHERE ISBN='{ISBN}' AND UserID='{userID}'")
+        books = cnn.execute(f"SELECT Quantity FROM {self.tableName} WHERE ISBN='{ISBN}' AND UserID='{userID}'")
+        
         for book in books:
             q = int(book[0]) + 1
-            cnn.execute(f"UPDATE Inventory SET Quantity='{q}' WHERE ISBN='{ISBN} AND UserID={userID}'")
+            cnn.execute(f"UPDATE {self.tableName} SET Quantity='{q}' WHERE ISBN='{ISBN} AND UserID={userID}'")
+            cnn.commit()
+            cnn.close()
             return True
         
         cnn.execute(f"INSERT INTO {self.tableName} VALUES (?,?,?)",(userID, ISBN, 1))
+        cnn.commit()
+        cnn.close()
         return False
 
     def removeFromCart(self, userID, ISBN):
         cnn = sqlite3.connect('./' + self.databaseName)
-        cnn.execute("DELETE FROM {self.tableName} WHERE UserID='{userID}' AND ISBN='{ISBN}'")
+        cnn.execute(f"DELETE FROM {self.tableName} WHERE UserID='{userID}' AND ISBN='{ISBN}'")
+        cnn.commit()
+        cnn.close()
 
     def checkOut(self, userID):
         cnn = sqlite3.connect('./' + self.databaseName)
@@ -29,6 +36,7 @@ class Cart:
     
         cnn.execute(f"DELETE FROM {self.tableName} WHERE UserID='{userID}'")
         cnn.commit()
+        cnn.close()
         
         
     def viewCart(self, userID, inventoryDatabase="Bookstore/Inventory.db"):

@@ -29,6 +29,10 @@ while(option not in '123' or user.loggedIn == False):
     option = input("incorrect, re-enter option: ")
 
 pos = "main"
+cart = ""
+if(user.loggedIn):
+    cart = Cart("Bookstore/Cart.db", "Cart")
+
 
 while(user.loggedIn):
     if(pos == "main"):
@@ -39,9 +43,64 @@ while(user.loggedIn):
         print("4. Cart Information")
         
         option = "none"
-        while(option[0] not in "1234"):
+        while(option not in "1234"):
             option = input("Input option: ")
+        if option == "1":
+            user.Logout()
+            break
+        elif option == "2":
+            user.viewAccountInformation()
+        elif option == "3":
+            pos = "inventory"
+        else:
+            pos = "cart"
 
+    if(pos == "inventory"):
+            print("Inventory Menu:", "\n")
+            print("1. Go Back")
+            print("2. View Inventory")
+            print("3. Search Inventory")
+            
+            option = "none"
+            while(option not in "123"):
+                option = input("Input option: ")
+
+            if option == "1":
+                pos = "main"
+            elif option == "2":
+                inventory.viewInventory()
+            elif option == "3":
+                inventory.searchInventory()
+            else:
+                print("Invalid option...")
+
+    if(pos == "cart"):
+            print("Cart Menu:", "\n")
+            print("1. Go Back")
+            print("2. View Cart")
+            print("3. Add Items")
+            print("4. Remove Items")
+            print("5. Checkout")
+            
+            option = "none"
+            while(option not in "12345"):
+                option = input("Input option: ")
+
+            if option == "1":
+                pos = "main"
+            elif option == "2":
+                cart.viewCart(user.userID)
+            elif option == "3":
+                ISBN = input("ISBN of book to add: ") 
+                cart.addToCart(user.userID, ISBN)
+            elif option == "4":
+                ISBN = input("ISBN of book to remove: ")
+                cart.removeFromCart(user.userID, ISBN)
+            elif option == "5":
+                cart.checkout(user.userId)
+            else:
+                print("Invalid option...")
+            
 
 
 

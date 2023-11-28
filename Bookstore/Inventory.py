@@ -20,6 +20,7 @@ class Inventory:
     for book in table_data:
         for j in range(len(book)):
             print(headers[j], book[j])
+    cursor.close()
 
   def searchInventory(self):
     cursor = sqlite3.connect("./" + self.databaseName)
@@ -37,6 +38,7 @@ class Inventory:
                 print(headers[j] + ": ", i[j])
     else:
         print(f"No book with ISBN {ISBN} found in our inventory.")
+    cursor.close()
 
 
   def decreaseStock(self, ISBN, quantity_to_decrease):
@@ -57,6 +59,7 @@ class Inventory:
             cursor.commit()
         else:
             print("Insufficient stock.")
+    cursor.close()
 
 
 

@@ -16,8 +16,10 @@ class User:
         for u in userIDs:
             self.userID = u[0]
             self.loggedIn = True
+            cnn.close()
             return True
         print("login failed...")
+        cnn.close()
         return False
     
     def logout(self):
@@ -29,11 +31,13 @@ class User:
         cnn = sqlite3.connect('./' + self.databaseName)
         if(self.userID == ""):
             print("please log in...")
+            cnn.close()
             return False
         info = cnn.execute(f"SELECT * FROM {self.tableName} WHERE UserID='{self.userID}'")
         for i in info:
             for x in i:
                 print(x)
+            cnn.close()
             return True
 
     def createAccount(self):
@@ -53,6 +57,7 @@ class User:
             cnn.commit()
         except Exception as e:
             print(e)
+        cnn.close()
      
     def getLoggedIn(self):
         return self.loggedIn
