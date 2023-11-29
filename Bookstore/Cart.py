@@ -37,7 +37,7 @@ class Cart:
             cnn.close()
             return False
 
-    def checkOut(self, userID):
+    def checkOut(self, userID, inventory):
         cnn = sqlite3.connect('./' + self.databaseName)
         books = cnn.execute(f"SELECT ISBN, Quantity FROM {self.tableName} WHERE UserID='{userID}'")
 

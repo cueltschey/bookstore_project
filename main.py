@@ -97,7 +97,7 @@ while(user.loggedIn):
                 ISBN = input("ISBN of book to remove: ")
                 cart.removeFromCart(user.userID, ISBN)
             elif option == "5":
-                cart.checkout(user.userId)
+                cart.checkOut(user.userID, inventory)
             else:
                 print("Invalid option...")
 
