@@ -5,7 +5,7 @@ from Bookstore.Cart import Cart
 
 user = User("Bookstore/User.db", "User")
 inventory = Inventory("Bookstore/Inventory.db", "Inventory")
-print("Login Page:", "\n")
+print("\nLogin Page:", "\n")
 
 print("1. Login to existing account.")
 print("2. Register a new account.")
@@ -26,7 +26,7 @@ while(option not in '123' or user.loggedIn == False):
     print("1. Login to existing account.")
     print("2. Register a new account.")
     print("3. Logout.")
-    option = input("incorrect, re-enter option: ")
+    option = input("Enter Option: ")
 
 pos = "main"
 cart = ""
@@ -36,7 +36,7 @@ if(user.loggedIn):
 
 while(user.loggedIn):
     if(pos == "main"):
-        print("Main Menu:", "\n")
+        print("\nMain Menu:", "\n")
         print("1. Logout")
         print("2. Account Information")
         print("3. Inventory Information")
@@ -46,7 +46,7 @@ while(user.loggedIn):
         while(option not in "1234"):
             option = input("Input option: ")
         if option == "1":
-            user.Logout()
+            user.logout()
             break
         elif option == "2":
             user.viewAccountInformation()
@@ -56,7 +56,7 @@ while(user.loggedIn):
             pos = "cart"
 
     if(pos == "inventory"):
-            print("Inventory Menu:", "\n")
+            print("\nInventory Menu:", "\n")
             print("1. Go Back")
             print("2. View Inventory")
             print("3. Search Inventory")
@@ -75,7 +75,7 @@ while(user.loggedIn):
                 print("Invalid option...")
 
     if(pos == "cart"):
-            print("Cart Menu:", "\n")
+            print("\nCart Menu:", "\n")
             print("1. Go Back")
             print("2. View Cart")
             print("3. Add Items")
@@ -100,8 +100,6 @@ while(user.loggedIn):
                 cart.checkout(user.userId)
             else:
                 print("Invalid option...")
+
+print("Goodbye!...")
             
-
-
-
-

@@ -32,7 +32,7 @@ class Cart:
                 cnn.commit()
                 cnn.close()
                 return True
-            cnn.execute("DELETE FROM {self.tableName} WHERE ISBN='{ISBN}' AND UserID='{userID}'")
+            cnn.execute(f"DELETE FROM {self.tableName} WHERE ISBN='{ISBN}' AND UserID='{userID}'")
             cnn.commit()
             cnn.close()
             return False
